@@ -47,6 +47,8 @@ public class staffLogin extends loginChecker{
 	        	//System.out.println(String.valueOf(pwdEnterAdminPassword.getPassword()));
 	            if (confirmIdentity(textField.getText(), String.valueOf(pwdEnterAdminPassword.getPassword()), "employee_login")) {
 	            	frame.dispose();
+	            	staffLandingPage sp = new staffLandingPage(textField.getText());
+	            	sp.showWindow();
 	            }
 	            else {
 	            	JOptionPane.showMessageDialog(null, "The username or password is incorrect. Please try again.", "Incorrect Login Information", JOptionPane.INFORMATION_MESSAGE);
