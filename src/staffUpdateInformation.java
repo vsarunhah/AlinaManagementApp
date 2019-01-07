@@ -16,7 +16,7 @@ public class staffUpdateInformation {
 	private static JTextField txtEmail;
 	private static JTextField txtUsername;
 	private static JPasswordField pwdPassword;
-	public static void main(String[] args) {
+	public void showWindow() {
 		JFrame frame = new JFrame();
 		frame.getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
 				FormSpecs.RELATED_GAP_COLSPEC,
