@@ -25,12 +25,6 @@ public class customerInformationList {
 		Class.forName("com.mysql.cj.jdbc.Driver");  
 		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","vrocker123");  
 		//here mydb is database name, root is username and password
-		Statement s = con.createStatement();
-//		for (int i = 0; i < 50; i++) {
-//			String query = "INSERT INTO cust_info (`email`, `phone`, `name`, `birthday`) VALUES ('" + i + "', '1', 'Bob', '2001-11-29 12:12:12.0');";
-//		    PreparedStatement preparedStmt = con.prepareStatement(query);
-//		      preparedStmt.executeUpdate();
-//		}
 		Statement stmt = con.createStatement();  
 		ResultSet rs = stmt.executeQuery("select * from cust_info");
 		

@@ -3,6 +3,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class staffLandingPage {
@@ -27,7 +28,13 @@ public class staffLandingPage {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Open the information page
+				staffUpdateInformation sui = new staffUpdateInformation();
+				try {
+					sui.showWindow(user);
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnUpdateInformation.setBounds(149, 98, 149, 29);
@@ -55,7 +62,14 @@ public class staffLandingPage {
 		frame.getContentPane().add(btnUpcomingAppointments);
 		
 		JButton btnHolidays = new JButton("Holidays");
-		//TODO Open Holidays Page
+		
+		btnHolidays.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO Open Holidays Page
+				
+			}
+		});
 		btnHolidays.setBounds(149, 221, 149, 29);
 		frame.getContentPane().add(btnHolidays);
 		frame.setSize(800, 520);

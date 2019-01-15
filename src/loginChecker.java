@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class loginChecker {
 
@@ -26,6 +27,7 @@ public class loginChecker {
 			
 			if (username.compareTo(user) == 0 && password.compareTo(pass) == 0) {
 				System.out.println("Login Successful");
+				JOptionPane.showMessageDialog(null, "Login Successful");
 				return true;
 			}
 			else {

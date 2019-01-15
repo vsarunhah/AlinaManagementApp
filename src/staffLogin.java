@@ -17,7 +17,7 @@ public class staffLogin extends loginChecker{
 		JFrame frame = new JFrame("Alina");
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblAdminLogin = new JLabel("Admin Login");
+		JLabel lblAdminLogin = new JLabel("Staff Login");
 		lblAdminLogin.setBounds(180, 17, 95, 16);
 		frame.getContentPane().add(lblAdminLogin);
 		

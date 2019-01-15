@@ -4,10 +4,19 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javax.swing.SwingConstants;
 
 public class staffUpdateInformation {
@@ -16,87 +25,105 @@ public class staffUpdateInformation {
 	private static JTextField txtEmail;
 	private static JTextField txtUsername;
 	private static JPasswordField pwdPassword;
-	public void showWindow() {
-		JFrame frame = new JFrame();
-		frame.getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
-			new RowSpec[] {
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,}));
+	
+	String username; 
+	public void showWindow(String username) throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.cj.jdbc.Driver");  
+		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","vrocker123");  
+		//here mydb is database name, root is username and password
+		Statement stmt = con.createStatement();  
+		ResultSet rs = stmt.executeQuery("select * from employee_login where (`username` = '" + username + "')");
+		rs.next();
+		String name = rs.getString(4);
+		String phone = rs.getString(5);
+		String email = rs.getString(6);
+		String password = rs.getString(3);
 		
+		JFrame frame = new JFrame();
+		frame.getContentPane().setLayout(null);
 		JLabel lblAlinaBeautySalon = new JLabel("Alina Beauty Salon");
+		lblAlinaBeautySalon.setBounds(91, 5, 359, 25);
 		lblAlinaBeautySalon.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAlinaBeautySalon.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		frame.getContentPane().add(lblAlinaBeautySalon, "8, 2, 5, 1");
+		frame.getContentPane().add(lblAlinaBeautySalon);
 		
 		JLabel lblUsername = new JLabel("Username");
-		frame.getContentPane().add(lblUsername, "8, 4");
+		lblUsername.setBounds(91, 40, 92, 16);
+		frame.getContentPane().add(lblUsername);
 		
 		txtUsername = new JTextField();
-		txtUsername.setText("username");
-		frame.getContentPane().add(txtUsername, "12, 4, fill, default");
+		txtUsername.setBounds(216, 35, 234, 26);
+		txtUsername.setText(username);
+		frame.getContentPane().add(txtUsername);
 		txtUsername.setColumns(10);
 		
 		JLabel lblName = new JLabel("Name");
-		frame.getContentPane().add(lblName, "8, 6");
+		lblName.setBounds(91, 71, 92, 16);
+		frame.getContentPane().add(lblName);
 		
 		txtName = new JTextField();
-		txtName.setText("name");
-		frame.getContentPane().add(txtName, "12, 6, fill, default");
+		txtName.setBounds(216, 66, 234, 26);
+		txtName.setText(name);
+		frame.getContentPane().add(txtName);
 		txtName.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("Email");
-		frame.getContentPane().add(lblEmail, "8, 8");
+		lblEmail.setBounds(91, 102, 92, 16);
+		frame.getContentPane().add(lblEmail);
 		
 		txtEmail = new JTextField();
-		txtEmail.setText("email");
-		frame.getContentPane().add(txtEmail, "12, 8, fill, default");
+		txtEmail.setBounds(216, 97, 234, 26);
+		txtEmail.setText(email);
+		frame.getContentPane().add(txtEmail);
 		txtEmail.setColumns(10);
 		
 		JLabel lblPhoneNumber = new JLabel("Phone Number");
-		frame.getContentPane().add(lblPhoneNumber, "8, 10");
+		lblPhoneNumber.setBounds(91, 133, 92, 16);
+		frame.getContentPane().add(lblPhoneNumber);
 		
 		txtPhone = new JTextField();
-		txtPhone.setText("phone");
-		frame.getContentPane().add(txtPhone, "12, 10, fill, default");
+		txtPhone.setBounds(216, 128, 234, 26);
+		txtPhone.setText(phone);
+		frame.getContentPane().add(txtPhone);
 		txtPhone.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password");
-		frame.getContentPane().add(lblPassword, "8, 12");
+		lblPassword.setBounds(91, 164, 92, 16);
+		frame.getContentPane().add(lblPassword);
 		
 		pwdPassword = new JPasswordField();
-		pwdPassword.setText("password");
-		frame.getContentPane().add(pwdPassword, "12, 12, fill, default");
+		pwdPassword.setBounds(216, 159, 234, 26);
+		pwdPassword.setText(password);
+		frame.getContentPane().add(pwdPassword);
 		
 		JButton btnApplyChanges = new JButton("Apply Changes");
-		frame.getContentPane().add(btnApplyChanges, "12, 18");
+		btnApplyChanges.setBounds(216, 250, 234, 29);
+		btnApplyChanges.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					// breaking up SQL query into individual update lines to help simplify code
+					String finalQuery = "UPDATE `mydb`.`employee_login` SET ";
+					finalQuery = finalQuery + "`username` = '" + txtUsername.getText() + "', ";
+					finalQuery = finalQuery + "`password` = '"+ String.valueOf(pwdPassword.getPassword())+ "', ";
+					finalQuery = finalQuery + "`name` = '"+ txtName.getText() +"', ";
+					finalQuery = finalQuery + "`phone` = '" + txtPhone.getText() +"', ";
+					finalQuery = finalQuery + "`email` = '" + txtEmail.getText() +"' ";
+					finalQuery = finalQuery + "WHERE (`username` = '"+ username +"');";
+					stmt.executeUpdate(finalQuery);
+					frame.dispose();
+					JOptionPane.showMessageDialog(frame, "Changes successfully applied");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		frame.getContentPane().add(btnApplyChanges);
+		
+		frame.setSize(800, 520);
+		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);		
 		
 	}
 }
