@@ -27,6 +27,9 @@ public class staffUpdateInformation {
 	private static JPasswordField pwdPassword;
 	
 	String username; 
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public void showWindow(String username) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");  
 		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","vrocker123");  
@@ -40,6 +43,7 @@ public class staffUpdateInformation {
 		String password = rs.getString(3);
 		
 		JFrame frame = new JFrame();
+		frame.setSize(500, 310);
 		frame.getContentPane().setLayout(null);
 		JLabel lblAlinaBeautySalon = new JLabel("Alina Beauty Salon");
 		lblAlinaBeautySalon.setBounds(91, 5, 359, 25);
@@ -121,7 +125,6 @@ public class staffUpdateInformation {
 		});
 		frame.getContentPane().add(btnApplyChanges);
 		
-		frame.setSize(800, 520);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);		
 		

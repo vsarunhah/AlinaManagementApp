@@ -10,9 +10,13 @@ import com.jgoodies.forms.layout.RowSpec;
 public class adminLogin extends loginChecker{
 	private static JTextField textField;
 	private static JPasswordField pwdEnterAdminPassword;
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	@Override
 	public void showWindow() {
 		JFrame frame = new JFrame("Alina");
+		frame.setSize(480, 300);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblAdminLogin = new JLabel("Admin Login");
@@ -42,9 +46,9 @@ public class adminLogin extends loginChecker{
 		btnSubmit.setBounds(158, 192, 117, 29);
 		btnSubmit.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	        	//System.out.println(String.valueOf(pwdEnterAdminPassword.getPassword()));
 	            if (confirmIdentity(textField.getText(), String.valueOf(pwdEnterAdminPassword.getPassword()), "admin_login")) {
 	            	frame.dispose();
+	            	adminLandingPage alp = new adminLandingPage();
 	            }
 	            else {
 	            	JOptionPane.showMessageDialog(null, "The username or password is incorrect. Please try again.", "Incorrect Login Information", JOptionPane.INFORMATION_MESSAGE);
@@ -52,7 +56,6 @@ public class adminLogin extends loginChecker{
 	        }
 	    } );
 		frame.getContentPane().add(btnSubmit);
-		frame.setSize(800, 520);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 

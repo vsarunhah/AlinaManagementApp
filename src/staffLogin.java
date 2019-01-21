@@ -12,9 +12,13 @@ public class staffLogin extends loginChecker{
 	
 	private static JTextField textField;
 	private static JPasswordField pwdEnterAdminPassword;
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	@Override
 	public void showWindow() {
 		JFrame frame = new JFrame("Alina");
+		frame.setSize(480, 300);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblAdminLogin = new JLabel("Staff Login");
@@ -56,9 +60,7 @@ public class staffLogin extends loginChecker{
 	        }
 	    } );
 		frame.getContentPane().add(btnSubmit);
-		frame.setSize(800, 520);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
-
 	}
 }

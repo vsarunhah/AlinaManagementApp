@@ -7,20 +7,18 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class staffLandingPage {
-	/**
-	 * @wbp.parser.entryPoint
-	 */
 	String user;
 	public staffLandingPage(String username) {
 		user = username;
 	}
 	public void showWindow(){
 		JFrame frame = new JFrame();
+		frame.setSize(450, 300);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblHiName = new JLabel("Hi, " + user);
 		lblHiName.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		lblHiName.setBounds(137, 33, 241, 30);
+		lblHiName.setBounds(154, 33, 241, 30);
 		frame.getContentPane().add(lblHiName);
 		
 		JButton btnUpdateInformation = new JButton("Update Information");
@@ -32,7 +30,6 @@ public class staffLandingPage {
 				try {
 					sui.showWindow(user);
 				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -45,7 +42,11 @@ public class staffLandingPage {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Open Inventory page
+				try {
+					inventoryUpdate iu = new inventoryUpdate();
+				} catch (ClassNotFoundException | SQLException e1) {
+					e1.printStackTrace();
+				}
 				
 			}
 		});
@@ -55,7 +56,12 @@ public class staffLandingPage {
 		JButton btnUpcomingAppointments = new JButton("Next Appointment");
 		btnUpcomingAppointments.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Open Upcoming Appointments
+				try {
+					appointmentViewer av = new appointmentViewer();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnUpcomingAppointments.setBounds(149, 180, 149, 29);
@@ -66,13 +72,12 @@ public class staffLandingPage {
 		btnHolidays.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO Open Holidays Page
+				holidays h = new holidays(user);
 				
 			}
 		});
 		btnHolidays.setBounds(149, 221, 149, 29);
 		frame.getContentPane().add(btnHolidays);
-		frame.setSize(800, 520);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 	}
