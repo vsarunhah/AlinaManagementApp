@@ -11,11 +11,31 @@ import java.util.Vector;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
 public class appointmentViewer {
 	private JTable table;
 	public appointmentViewer() throws SQLException {
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (UnsupportedLookAndFeelException e) {
+		    // handle exception
+		} catch (ClassNotFoundException e) {
+		    // handle exception
+		} catch (InstantiationException e) {
+		    // handle exception
+		} catch (IllegalAccessException e) {
+		    // handle exception
+		}
+
 		JFrame frame = new JFrame();		
 		frame.setSize(600, 400);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
@@ -36,26 +56,26 @@ public class appointmentViewer {
 	public static DefaultTableModel buildTableModel(ResultSet rs)
 	        throws SQLException {
 
-	    ResultSetMetaData metaData = rs.getMetaData();
+	    ResultSetMetaData rsMeta = rs.getMetaData();
 
 	    // names of columns
-	    Vector<String> columnNames = new Vector<String>();
-	    int columnCount = metaData.getColumnCount();
-	    for (int column = 1; column <= columnCount; column++) {
-	        columnNames.add(metaData.getColumnName(column));
+	    Vector<String> columns = new Vector<String>();
+	    int numColumns = rsMeta.getColumnCount();
+	    for (int column = 1; column <= numColumns; column++) {
+	        columns.add(rsMeta.getColumnName(column));
 	    }
 
 	    // data of the table
-	    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+	    Vector<Vector<Object>> columnData = new Vector<Vector<Object>>();
 	    while (rs.next()) {
 	        Vector<Object> vector = new Vector<Object>();
-	        for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+	        for (int columnIndex = 1; columnIndex <= numColumns; columnIndex++) {
 	            vector.add(rs.getObject(columnIndex));
 	        }
-	        data.add(vector);
+	        columnData.add(vector);
 	    }
 
-	    return new DefaultTableModel(data, columnNames);
+	    return new DefaultTableModel(columnData, columns);
 
 	}
 }

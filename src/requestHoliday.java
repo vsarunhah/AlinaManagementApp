@@ -16,6 +16,9 @@ import java.util.Date;
 
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.joda.time.LocalDate;
 
@@ -25,6 +28,23 @@ import javax.swing.JButton;
 public class requestHoliday {
 	private JTextField textField;
 	public requestHoliday(String username) throws SQLException {
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (UnsupportedLookAndFeelException e) {
+		    // handle exception
+		} catch (ClassNotFoundException e) {
+		    // handle exception
+		} catch (InstantiationException e) {
+		    // handle exception
+		} catch (IllegalAccessException e) {
+		    // handle exception
+		}
+
 		JFrame frame = new JFrame();
 		frame.setSize(450, 300);
 		frame.getContentPane().setLayout(null);

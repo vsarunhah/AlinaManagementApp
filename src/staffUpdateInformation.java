@@ -18,6 +18,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class staffUpdateInformation {
 	private static JTextField txtName;
@@ -26,11 +29,28 @@ public class staffUpdateInformation {
 	private static JTextField txtUsername;
 	private static JPasswordField pwdPassword;
 	
-	String username; 
+	private String username; 
 	/**
 	 * @wbp.parser.entryPoint
 	 */
 	public void showWindow(String username) throws ClassNotFoundException, SQLException {
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (UnsupportedLookAndFeelException e) {
+		    // handle exception
+		} catch (ClassNotFoundException e) {
+		    // handle exception
+		} catch (InstantiationException e) {
+		    // handle exception
+		} catch (IllegalAccessException e) {
+		    // handle exception
+		}
+
 		Class.forName("com.mysql.cj.jdbc.Driver");  
 		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","vrocker123");  
 		//here mydb is database name, root is username and password
@@ -106,7 +126,6 @@ public class staffUpdateInformation {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					// breaking up SQL query into individual update lines to help simplify code
 					String finalQuery = "UPDATE `mydb`.`employee_login` SET ";
 					finalQuery = finalQuery + "`username` = '" + txtUsername.getText() + "', ";
 					finalQuery = finalQuery + "`password` = '"+ String.valueOf(pwdPassword.getPassword())+ "', ";

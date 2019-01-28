@@ -1,4 +1,5 @@
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,11 +15,27 @@ import java.util.Vector;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
 public class customerInformationList {
 	private static JTable table;
 	public customerInformationList() throws SQLException, ClassNotFoundException {
+		for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+	        if ("Nimbus".equals(info.getName())) {
+	            try {
+	            	UIManager.setLookAndFeel(info.getClassName());
+				} catch (InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+					JOptionPane.showMessageDialog(null, "Cannot set nimbus look and feel, defaulting to normal");
+						e.printStackTrace();
+					}
+		            break;
+		        }
+		    }
+		
+
 		JFrame frame = new JFrame();
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		

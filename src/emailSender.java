@@ -16,33 +16,37 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.swing.JOptionPane;
  
 public class emailSender {
+	public emailSender() {
+		System.out.println("email could not be sent; no arguments given");
+	}
 	public emailSender(String toMail, String subject, String mainText) {
-		Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.socketFactory.port", "465");
-		props.put("mail.smtp.socketFactory.class",
+		Properties properties = new Properties();
+		properties.put("mail.smtp.host", "smtp.gmail.com");
+		properties.put("mail.smtp.socketFactory.port", "465");
+		properties.put("mail.smtp.socketFactory.class",
 				"javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.port", "465");
+		properties.put("mail.smtp.auth", "true");
+		properties.put("mail.smtp.port", "465");
 
-		Session session = Session.getDefaultInstance(props,
+		Session session = Session.getDefaultInstance(properties,
 			new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication("varunshah660@gmail.com","vsarunhah123");
+					return new PasswordAuthentication("varunshah660@gmail.com","vrocker123");
 				}
 			});
 		try {
 
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("varunshah660@gmail.com"));
-			message.setRecipients(Message.RecipientType.TO,
+			Message emailToBeSent = new MimeMessage(session);
+			emailToBeSent.setFrom(new InternetAddress("varunshah660@gmail.com"));
+			emailToBeSent.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(toMail));
-			message.setSubject(subject);
-			message.setText(mainText);
+			emailToBeSent.setSubject(subject);
+			emailToBeSent.setText(mainText);
 
-			Transport.send(message);
+			Transport.send(emailToBeSent);
 
 			System.out.println("Done");
 

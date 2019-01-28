@@ -14,12 +14,33 @@ import java.sql.Statement;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JButton;
 
 public class inventoryUpdate {
-	ResultSet rs;
 	private JTextField textField;
+	Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","vrocker123");  
+	Statement stmt = con.createStatement();
 	public inventoryUpdate() throws ClassNotFoundException, SQLException {
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (UnsupportedLookAndFeelException e) {
+		    // handle exception
+		} catch (ClassNotFoundException e) {
+		    // handle exception
+		} catch (InstantiationException e) {
+		    // handle exception
+		} catch (IllegalAccessException e) {
+		    // handle exception
+		}
+
 		JFrame frame = new JFrame();
 		frame.setLocationRelativeTo(null);
 		frame.setSize(500, 400);
@@ -51,9 +72,6 @@ public class inventoryUpdate {
 		textField.setColumns(10);
 		frame.setVisible(true);
 		Class.forName("com.mysql.cj.jdbc.Driver");  
-		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","vrocker123");  
-		Statement stmt = con.createStatement();
-		rs = stmt.executeQuery("select * from inventory");
 		productName.setModel(defaultComboboxModel());
 		
 		JButton btnApplyChanges = new JButton("Apply Changes");
@@ -73,31 +91,36 @@ public class inventoryUpdate {
 		        }
 
 		        if (numeric) {
-		        	ResultSet result = rs;
 		        	try {
+		        		ResultSet result = stmt.executeQuery("select * from inventory");
 						while(result.next()){
-							if (result.getString(1).compareTo(product) == 0) {
+							String name = result.getString(1);
+							if (name.compareTo(product) == 0) {
 								int availableQuantity = result.getInt(2);
 								if (Integer.valueOf(quantity) > availableQuantity) {
-									JOptionPane.showMessageDialog(null, "Please check the quantity used", "Quantity used is more than available quantity", 0);
+									JOptionPane.showMessageDialog(null, "Quantity used is more than available quantity", "Please check the quantity used", 0);
 								}
 								else {
+									int minQuantity = result.getInt(3);
+									String supplier = result.getString(4);
 									int newQuantity = availableQuantity - Integer.valueOf(quantity);
-									stmt.executeUpdate("UPDATE `mydb`.`inventory` SET `quantity` = '" + newQuantity + "' WHERE (`name` = '" + product + "');");
-									if(result.getInt(3) > newQuantity){
+									Statement statement = con.createStatement();
+									statement.executeUpdate("UPDATE `mydb`.`inventory` SET `quantity` = '" + newQuantity + "' WHERE (`name` = '" + product + "');");
+										if(minQuantity > newQuantity){
 										String quantityWanted = JOptionPane.showInputDialog(null, "The quantity of " + product + " has gone below threshold value. How much more would you like to order?", "Quantity deficit", 0);
-										if (result.getInt(3) > (Integer.valueOf(quantityWanted) + newQuantity)) {
+										if (minQuantity >= (Integer.valueOf(quantityWanted) + newQuantity)) {
 											JOptionPane.showMessageDialog(null, "More will need to be ordered", "Insufficient order placement", 0);
 											quantityWanted = JOptionPane.showInputDialog(null, "The quantity of " + product + " has gone below threshold value. How much more would you like to order?", "Quantity deficit", 0);
 										}
 										String orderMail = "Good afternoon,\nAlina Beauty Salon wants to place an order for " + product + " of quantity " + quantityWanted;
-										emailSender es = new emailSender(result.getString(4), "Alina Beauty Salon Order", orderMail);
+										emailSender es = new emailSender(supplier, "Alina Beauty Salon Order", orderMail);
+										frame.dispose();
+										
 									}
 								}
 							}
 						}
 					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 		        }
@@ -110,9 +133,10 @@ public class inventoryUpdate {
 	}
 	public DefaultComboBoxModel defaultComboboxModel() throws SQLException {
 		DefaultComboBoxModel dm = new DefaultComboBoxModel();
-		ResultSet list = rs;
+		Statement state = con.createStatement();
+		ResultSet list = state.executeQuery("select * from inventory");
 		while (list.next()) {
-			String name = rs.getString(1);
+			String name = list.getString(1);
 			dm.addElement(name);
 		}
 		return dm;

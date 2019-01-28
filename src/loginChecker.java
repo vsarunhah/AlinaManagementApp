@@ -30,8 +30,8 @@ public class loginChecker {
 				JOptionPane.showMessageDialog(null, "Login Successful");
 				return true;
 			}
-			else {
-				System.out.println("so this didn't work out as hoped");
+			else if (rs.isLast()){
+				JOptionPane.showMessageDialog(null, "Login Unsuccessful. Verify login credentials");
 			}
 			
 			}

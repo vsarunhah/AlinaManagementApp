@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JToggleButton;
 import javax.swing.JTextField;
 import java.awt.Color;
@@ -19,6 +22,23 @@ import java.awt.Color;
 public class runOffers {
 	private JTextField textField;
 	public runOffers() throws ClassNotFoundException, SQLException {
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (UnsupportedLookAndFeelException e) {
+		    // handle exception
+		} catch (ClassNotFoundException e) {
+		    // handle exception
+		} catch (InstantiationException e) {
+		    // handle exception
+		} catch (IllegalAccessException e) {
+		    // handle exception
+		}
+
 		JFrame frame = new JFrame();
 		frame.setSize(450, 300);
 		Class.forName("com.mysql.cj.jdbc.Driver");  
